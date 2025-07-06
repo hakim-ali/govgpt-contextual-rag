@@ -1,0 +1,97 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Development and evaluation files
+evals/
+*.ipynb
+*.xlsx
+*.csv
+test_*.py
+*_test.py
+composite_model_evaluation*
+
+# Zone.Identifier files (Windows security tags)
+*Zone.Identifier*
+*.Zone.Identifier
+
+# Git and version control
+.git/
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation and README files
+*.md
+README*
+docs/
+documentation/
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+
+# Environment files (use .env.docker instead)
+.env
+.env.local
+.env.development
+.env.test
+
+# Build artifacts and cache
+build/
+dist/
+.cache/
+*.egg-info/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Large model files that should be mounted as volumes
+# artifacts/
+# documents/
+
+# Development dependencies
+requirements-dev.txt
+pyproject.toml
+setup.py
+tox.ini
+.tox/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.nyc_output/
+coverage/
+
+# Docker files (except the ones we want)
+docker-compose.override.yml
+docker-compose.local.yml

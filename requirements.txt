@@ -1,0 +1,39 @@
+# Core dependencies
+requests
+pandas
+numpy
+python-dotenv
+tenacity>=8.4.1
+openai
+litellm
+
+# FastAPI and server dependencies
+fastapi
+uvicorn
+pydantic
+
+# Machine learning and search dependencies
+rank-bm25
+faiss-cpu
+tiktoken
+
+# Together AI client
+together
+
+# Document processing dependencies
+docling
+docling-core
+PyPDF2
+
+# Evaluation dependencies
+deepeval
+ragas
+
+# LangChain dependencies
+langchain
+langchain-openai
+langchain-community
+langchain-core
+
+# Excel processing
+openpyxl
