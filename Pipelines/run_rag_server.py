@@ -23,7 +23,7 @@ from config.pipeline_config import PipelineConfig
 from core.rag_engine import RAGEngine
 
 # Load environment variables
-load_dotenv()
+load_dotenv(override=True)
 
 # Global RAG engine instance
 rag_engine: Optional[RAGEngine] = None

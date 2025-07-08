@@ -9,6 +9,8 @@ from config.pipeline_config import PipelineConfig
 from .embedding_service import EmbeddingService
 from .retrieval_service import RetrievalService
 from utils.helpers import format_context
+from utils.logger import get_logger
+logger = get_logger(__name__)
 
 
 class RAGEngine:
@@ -41,12 +43,12 @@ class RAGEngine:
             success = self.retrieval_service.load_artifacts()
             if success:
                 self.is_ready = True
-                print("✅ RAG Engine initialized successfully")
+                logger.info("✅ RAG Engine initialized successfully")
             else:
-                print("❌ RAG Engine initialization failed")
+                logger.info("❌ RAG Engine initialization failed")
             return success
         except Exception as e:
-            print(f"❌ RAG Engine initialization error: {e}")
+            logger.info(f"❌ RAG Engine initialization error: {e}")
             return False
     
     @retry(wait=wait_exponential(multiplier=1, min=2, max=1024), stop=stop_after_attempt(10))

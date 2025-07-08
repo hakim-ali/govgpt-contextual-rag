@@ -8,10 +8,10 @@ import numpy as np
 import faiss
 from typing import List, Tuple, Dict, Any
 from rank_bm25 import BM25Okapi
-
+from utils.logger import get_logger
 from config.pipeline_config import PipelineConfig
 from utils.helpers import rrf, rerank_chunks, validate_search_results
-
+logger = get_logger(__name__)
 
 class RetrievalService:
     """Service for document retrieval using BM25 and FAISS"""
@@ -43,21 +43,21 @@ class RetrievalService:
             # Load FAISS index  
             self.faiss_index = faiss.read_index(self.config.faiss_path)
             
-            print(f"✅ Loaded {len(self.chunks_data)} contextual chunks for model {self.config.EMBED_MODEL}")
-            print(f"✅ Loaded BM25 index with {len(self.chunks_data)} documents")
-            print(f"✅ Loaded FAISS index with dimension {self.faiss_index.d}")
+            logger.info(f"✅ Loaded {len(self.chunks_data)} contextual chunks for model {self.config.EMBED_MODEL}")
+            logger.info(f"✅ Loaded BM25 index with {len(self.chunks_data)} documents")
+            logger.info(f"✅ Loaded FAISS index with dimension {self.faiss_index.d}")
             
             self.is_loaded = True
             return True
             
         except FileNotFoundError as e:
-            print(f"❌ Model-specific artifacts not found for {self.config.EMBED_MODEL}")
-            print(f"❌ Missing file: {e.filename}")
-            print(f"💡 Please run preprocessing with EMBED_MODEL={self.config.EMBED_MODEL}")
+            logger.info(f"❌ Model-specific artifacts not found for {self.config.EMBED_MODEL}")
+            logger.info(f"❌ Missing file: {e.filename}")
+            logger.info(f"💡 Please run preprocessing with EMBED_MODEL={self.config.EMBED_MODEL}")
             return False
                 
         except Exception as e:
-            print(f"❌ Error loading artifacts: {e}")
+            logger.info(f"❌ Error loading artifacts: {e}")
             return False
     
     def bm25_search(self, query: str) -> List[int]:
@@ -78,7 +78,7 @@ class RetrievalService:
             bm25_ids = list(np.argsort(bm25_scores)[::-1][:self.config.BM25_K])
             return bm25_ids
         except Exception as e:
-            print(f"Warning: Lexical (BM25) search failed: {e}")
+            logger.info(f"Warning: Lexical (BM25) search failed: {e}")
             return []
     
     def vector_search(self, query_embedding: np.ndarray) -> List[int]:
@@ -98,7 +98,7 @@ class RetrievalService:
             _, dense_ids = self.faiss_index.search(query_embedding, self.config.VECTOR_K)
             return dense_ids[0].tolist()
         except Exception as e:
-            print(f"Warning: Vector search failed: {e}")
+            logger.info(f"Warning: Vector search failed: {e}")
             return []
     
     def hybrid_search(self, query: str, query_embedding: np.ndarray) -> List[int]:
@@ -132,7 +132,7 @@ class RetrievalService:
         # Reciprocal Rank Fusion
         fused_ids = rrf([dense_ids, bm25_ids], k=self.config.RRF_K)[:self.config.TOP_K]
         
-        print(f"🔀 RRF combined results: {len(fused_ids)} final chunks")
+        logger.info(f"🔀 RRF combined results: {len(fused_ids)} final chunks")
         return fused_ids
     
     def get_chunks(self, indices: List[int]) -> List[str]:
@@ -169,7 +169,7 @@ class RetrievalService:
             query, self.chunks_data, fused_indices, self.config.TOP_N
         )
         
-        print(f"🔄 Reranked to {len(final_chunks_text)} chunks after reranking")
+        logger.info(f"🔄 Reranked to {len(final_chunks_text)} chunks after reranking")
         return final_chunks_text, final_indices
     
     def get_status(self) -> Dict[str, Any]:

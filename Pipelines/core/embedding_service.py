@@ -6,9 +6,9 @@ import numpy as np
 import openai
 from typing import List, Optional
 from tenacity import retry, wait_exponential, stop_after_attempt
-
 from config.pipeline_config import PipelineConfig
-
+from utils.logger import get_logger
+logger = get_logger(__name__)
 
 class EmbeddingService:
     """Service for generating embeddings using various providers"""
@@ -87,7 +87,7 @@ class EmbeddingService:
             
             return query_emb
         except Exception as e:
-            print(f"Warning: Embedding generation failed: {e}")
+            logger.info(f"Warning: Embedding generation failed: {e}")
             raise e
     
     def get_model_info(self) -> dict:

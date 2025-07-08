@@ -3,7 +3,11 @@ Utility functions for RAG Pipeline
 """
 from typing import List, Tuple
 import numpy as np
+from utils.logger import get_logger
+logger = get_logger(__name__)
 
+# from together import Together
+# client = Together()
 
 def rrf(lists: List[List[int]], k: int = 60) -> List[int]:
     """
@@ -42,11 +46,37 @@ def rerank_chunks(
         Tuple of (reranked_chunks, reranked_indices)
     """
     chunks_to_rerank = [contextual_chunks[i] for i in chunk_indices]
-    retrieved_index = list(range(len(chunks_to_rerank)))
 
     # Simple fallback - return top_n chunks without reranking
-    # TODO: Implement actual reranking model integration
-    return chunks_to_rerank[:top_n], retrieved_index[:top_n]
+    # Disable reranking due to Together.AI credit limits
+    try:
+        logger.info(f"Reranking {len(chunks_to_rerank)} chunks for query: {query}")
+        
+        if True :
+            from together import Together
+            client = Together()
+
+            # Implement reranking logic here if you have a reranker
+            response = client.rerank.create(
+                model="Salesforce/Llama-Rank-V1",
+                query=query,
+                documents=chunks_to_rerank,
+                top_n=top_n 
+            )
+            logger.info(f"Reranking response: {[result.index for result in response.results]}")
+            retreived_chunks = []
+            retrieved_index = []
+            for result in response.results:
+                retreived_chunks.append(chunks_to_rerank[result.index])
+                retrieved_index.append(chunk_indices[result.index])
+            return retreived_chunks, retrieved_index
+
+    except Exception as e:
+        logger.info(f"Reranking failed: {e}")
+        # Fallback to returning the top_n chunks without reranking
+        # This is a simple fallback due to credit limits or other issues
+        logger.info("Using fallback method for reranking")    
+        return chunks_to_rerank[:top_n], chunk_indices[:top_n]
 
 
 def normalize_embeddings(embeddings: np.ndarray) -> np.ndarray:
