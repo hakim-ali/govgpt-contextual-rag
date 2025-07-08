@@ -247,3 +247,6 @@ dmypy.json
 # Uvicorn logs
 access.log
 error.log
+
+check_api_status.py
+.webui_secret_key

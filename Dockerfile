@@ -24,7 +24,7 @@ WORKDIR /app
 RUN chown appuser:appuser /app
 
 # Copy application files
-COPY --chown=appuser:appuser fastapi_rag_server.py .
+COPY --chown=appuser:appuser fastapi_rag_server_openwebui.py .
 COPY --chown=appuser:appuser artifacts/ /app/artifacts/
 
 # Switch to non-root user
@@ -37,10 +37,10 @@ ENV ARTIFACT_DIR=/app/artifacts
 
 # Health check with optimized timing
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8100/health || exit 1
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8100
 
 # Run the FastAPI server
-CMD ["python", "fastapi_rag_server.py"]
+CMD ["python", "fastapi_rag_server_openwebui.py"]
