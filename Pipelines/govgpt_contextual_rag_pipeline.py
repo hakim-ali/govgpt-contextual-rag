@@ -18,7 +18,9 @@ import requests
 import aiohttp
 import json
 from tenacity import retry, wait_exponential, stop_after_attempt
+import asyncio
 
+RAGAS_SERVICE_AVAILABLE = True
 
 class RAGServerClient:
     def __init__(
@@ -134,6 +136,18 @@ class Pipeline:
             default=25,
             description="Characters per chunk when using word boundary streaming"
         )
+        ENABLE_RAGAS: bool = Field(
+            default=True,
+            description="Enable RAGAS + Phoenix real-time evaluation"
+        )
+        RAGAS_SERVICE_URL: str = Field(
+            default="http://host.docker.internal:8300",
+            description="URL of the RAGAS + Phoenix evaluation service"
+        )
+        RAGAS_SERVICE_TIMEOUT: int = Field(
+            default=30,
+            description="Timeout for RAGAS service requests in seconds"
+        )
 
     def __init__(self):
         self.name = "GovGPT Contextual RAG (GPT-4.1)"
@@ -149,13 +163,24 @@ class Pipeline:
                 "STREAM_BUFFER_SIZE": int(os.getenv("STREAM_BUFFER_SIZE", "1024")),
                 "STREAM_WORD_BOUNDARY": os.getenv("STREAM_WORD_BOUNDARY", "true").lower() == "true",
                 "STREAM_CHUNK_SIZE": int(os.getenv("STREAM_CHUNK_SIZE", "25")),
+                "ENABLE_RAGAS": os.getenv("ENABLE_RAGAS", "true").lower() == "true",
+                "RAGAS_SERVICE_URL": os.getenv("RAGAS_SERVICE_URL", "http://host.docker.internal:8300"),
+                "RAGAS_SERVICE_TIMEOUT": int(os.getenv("RAGAS_SERVICE_TIMEOUT", "30")),
             }
         )
         self.rag_client = None
+        self.ragas_service_available = False
 
     async def on_startup(self):
         """Initialize pipeline on startup"""
         print(f"🚀 {self.name} starting up...")
+        
+        # Test RAGAS service if enabled
+        if self.valves.ENABLE_RAGAS:
+            try:
+                await self._test_ragas_service()
+            except Exception as e:
+                print(f"⚠️ RAGAS service test failed: {e}")
         
         # Test server connection on startup if debug enabled
         if self.valves.ENABLE_DEBUG:
@@ -168,6 +193,29 @@ class Pipeline:
                     print(f"⚠️ RAG server health check failed: {health.get('error', 'Unknown error')}")
             except Exception as e:
                 print(f"❌ RAG server connection failed: {e}")
+    
+    async def _test_ragas_service(self):
+        """Test RAGAS + Phoenix service availability"""
+        try:
+            response = requests.get(
+                f"{self.valves.RAGAS_SERVICE_URL}/health",
+                timeout=5
+            )
+            response.raise_for_status()
+            
+            health_data = response.json()
+            self.ragas_service_available = True
+            print(f"✅ RAGAS service healthy at {self.valves.RAGAS_SERVICE_URL}")
+            print(f"   - RAGAS initialized: {health_data.get('ragas_initialized', False)}")
+            print(f"   - Phoenix initialized: {health_data.get('phoenix_initialized', False)}")            
+            phoenix_url = health_data.get('phoenix_url')
+            if phoenix_url:
+                print(f"   - Phoenix UI: {phoenix_url}")
+                
+        except Exception as e:
+            print(f"❌ RAGAS service connection failed: {e}")
+            print(f"   - Make sure service is running at {self.valves.RAGAS_SERVICE_URL}")
+            self.ragas_service_available = False
 
     async def on_shutdown(self):
         """Clean up on shutdown"""
@@ -207,6 +255,42 @@ class Pipeline:
         )
         
         return current_config != client_config
+    
+    def _evaluate_with_ragas(self, query: str, response: str, context: str = ""):
+        """Evaluate response with RAGAS + Phoenix service"""
+        if not (self.valves.ENABLE_RAGAS and self.ragas_service_available):
+            return
+        
+        try:
+            
+            # Prepare evaluation request
+            payload = {
+                "query": query,
+                "response": response,
+                "context": context
+            }
+            
+            # Send to RAGAS service
+            response = requests.post(
+                f"{self.valves.RAGAS_SERVICE_URL}/evaluate",
+                json=payload,
+                timeout=self.valves.RAGAS_SERVICE_TIMEOUT
+            )
+            response.raise_for_status()
+            
+            eval_result = response.json()
+            
+            if self.valves.ENABLE_DEBUG:
+                print(f"✅ RAGAS evaluation completed for query: {query[:50]}...")
+                print(f"   - Evaluation ID: {eval_result.get('evaluation_id')}")
+           
+                if eval_result.get('metrics'):
+                    print(f"   - Metrics: {list(eval_result['metrics'].keys())}")
+                
+        except Exception as e:
+            if self.valves.ENABLE_DEBUG:
+                print(f"❌ RAGAS evaluation error: {e}")
+            # Don't raise - evaluation failure shouldn't break the pipeline
 
     def pipe(
         self,
@@ -268,9 +352,18 @@ class Pipeline:
             )
             response.raise_for_status()
 
+            # Collect full response for DeepEval monitoring
+            full_response = ""
             for chunk in response.iter_content(chunk_size=1024, decode_unicode=True):
                 if chunk:
+                    full_response += chunk
                     yield chunk
+            
+            # Evaluate with RAGAS after streaming is complete
+            # Note: We don't have context in streaming mode, so pass empty string
+            if full_response.strip():
+                self._evaluate_with_ragas(user_message, full_response.strip(), "")
+            
             # signal end‐of‐stream
             yield "\n"
 
@@ -338,6 +431,10 @@ class Pipeline:
         try:
             result = client.query_sync(user_message, model)
             answer = result.get("answer", "❌ No answer received from server")
+            context = result.get("context", "")
+            
+            # Evaluate with RAGAS before adding debug info
+            self._evaluate_with_ragas(user_message, answer, context)
             
             # Add debug info if enabled
             if self.valves.ENABLE_DEBUG:
@@ -347,6 +444,8 @@ class Pipeline:
                 debug_info += f"- Server: {self.valves.RAG_SERVER_URL}\n"
                 if "context" in result:
                     debug_info += "- Context retrieved: Yes\n"
+                if self.valves.ENABLE_RAGAS and self.ragas_service_available:
+                    debug_info += "- RAGAS evaluation: Enabled\n"
                 answer += debug_info
             
             return answer
@@ -360,7 +459,7 @@ class Pipeline:
         """Get pipeline information for debugging"""
         return {
             "name": self.name,
-            "version": "1.2.0",
+            "version": "1.3.0",
             "server_url": self.valves.RAG_SERVER_URL,
             "streaming_enabled": self.valves.ENABLE_STREAMING,
             "debug_enabled": self.valves.ENABLE_DEBUG,
@@ -368,7 +467,10 @@ class Pipeline:
             "buffer_size": self.valves.STREAM_BUFFER_SIZE,
             "chunk_size": self.valves.STREAM_CHUNK_SIZE,
             "timeout": self.valves.RAG_SERVER_TIMEOUT,
-            "model": self.valves.RAG_MODEL
+            "model": self.valves.RAG_MODEL,
+            "ragas_enabled": self.valves.ENABLE_RAGAS,
+            "ragas_service_available": self.ragas_service_available,
+            "ragas_service_url": self.valves.RAGAS_SERVICE_URL,
         }
 
     def get_status(self) -> Dict[str, Any]:
@@ -386,9 +488,15 @@ class Pipeline:
         return {
             "pipeline_name": self.name,
             "mode": "server_client",
-            "version": "1.1.0",
+            "version": "1.3.0",
             "valves": self.valves.model_dump(),
             "server_config": client_info,
             "server_health": server_health,
-            "client_initialized": bool(self.rag_client)
+            "client_initialized": bool(self.rag_client),
+            "ragas_status": {
+                "service_available": RAGAS_SERVICE_AVAILABLE,
+                "enabled": self.valves.ENABLE_RAGAS,
+                "service_healthy": self.ragas_service_available,
+                "service_url": self.valves.RAGAS_SERVICE_URL,
+            }
         }

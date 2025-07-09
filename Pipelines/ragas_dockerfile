@@ -1,0 +1,34 @@
+# RAGAS + Phoenix Evaluation Service Dockerfile
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY ragas_phoenix_requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r ragas_phoenix_requirements.txt
+
+# Copy service files
+COPY ragas_phoenix_service.py .
+COPY ground_truth_samples.py .
+
+# Create non-root user
+RUN useradd -m -u 1000 ragasuser
+USER ragasuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:$RAGAS_SERVICE_PORT/health || exit 1
+
+# Expose port
+EXPOSE 8300
+
+# Start service
+CMD ["python", "ragas_phoenix_service.py"]

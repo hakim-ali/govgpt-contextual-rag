@@ -1,6 +1,7 @@
 """
 Utility functions for RAG Pipeline
 """
+import os
 from typing import List, Tuple
 import numpy as np
 from utils.logger import get_logger
@@ -52,7 +53,7 @@ def rerank_chunks(
     try:
         logger.info(f"Reranking {len(chunks_to_rerank)} chunks for query: {query}")
         
-        if True :
+        if os.getenv("USE_TOGETHER_API", "false").lower() == "true":
             from together import Together
             client = Together()
 
@@ -70,6 +71,9 @@ def rerank_chunks(
                 retreived_chunks.append(chunks_to_rerank[result.index])
                 retrieved_index.append(chunk_indices[result.index])
             return retreived_chunks, retrieved_index
+        else:
+            logger.info("No Reranking API configured, using top_n fallback")
+            return chunks_to_rerank[:top_n], chunk_indices[:top_n]
 
     except Exception as e:
         logger.info(f"Reranking failed: {e}")

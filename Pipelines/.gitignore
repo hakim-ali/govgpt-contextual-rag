@@ -62,3 +62,6 @@ test_results/
 # Large model files (optional - comment out if you want to version control them)
 # artifacts/*.idx
 # artifacts/*.pkl
+
+extras/
+**/test_*.py

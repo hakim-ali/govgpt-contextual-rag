@@ -17,17 +17,36 @@ services:
       - ARTIFACT_DIR=/app/artifacts
       - PYTHONUNBUFFERED=1
       - PYTHONPATH=/app
-      # Default model configurations (can be overridden in .env)
-      - RAG_MODEL=${RAG_MODEL:-gpt-4.1}
-      - EMBED_MODEL=${EMBED_MODEL:-text-embedding-3-large}
-      - VECTOR_K=${VECTOR_K:-75}
-      - BM25_K=${BM25_K:-75}
-      - TOP_K=${TOP_K:-20}
-      - TOP_N=${TOP_N:-5}
-      - RRF_K=${RRF_K:-60}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - rag-network
+
+  # RAGAS + Phoenix Service for real-time evaluation
+  ragas-service:
+    build:
+      context: .
+      dockerfile: ragas_dockerfile
+    container_name: govgpt-ragas-service
+    ports:
+      - "8300:8300"  # RAGAS service
+      - "6006:6006"   # Phoenix UI
+    env_file:
+      - .env.ragas
+    environment:
+      - PYTHONUNBUFFERED=1
+      - RAGAS_SERVICE_HOST=0.0.0.0
+      - RAGAS_SERVICE_PORT=8300
+      - PHOENIX_HOST=0.0.0.0
+      - PHOENIX_PORT=6006
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8300/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -41,9 +60,11 @@ services:
     container_name: govgpt-pipeline-test
     depends_on:
       - rag-server
+      - ragas-service
     environment:
       - PYTHONPATH=/app
       - RAG_SERVER_URL=http://rag-server:8100
+      - RAGAS_SERVICE_URL=http://ragas-service:8300
       - ENABLE_DEBUG=true
     volumes:
       - ./:/app/pipeline
