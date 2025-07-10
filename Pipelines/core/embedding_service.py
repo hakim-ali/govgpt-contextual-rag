@@ -83,6 +83,9 @@ class EmbeddingService:
             
             # Normalize using FAISS normalization
             import faiss
+            faiss.GpuIndexIVFFlat = None
+            faiss.StandardGpuResources = None
+            faiss.GpuIndexFlatIP = None
             faiss.normalize_L2(query_emb)
             
             return query_emb

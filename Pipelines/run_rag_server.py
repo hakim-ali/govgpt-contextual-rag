@@ -160,8 +160,8 @@ async def query_rag(request: QueryRequest):
 @app.post("/retrieve")
 async def retrieve_streaming(q: Query):
     """
-    OpenWebUI compatible streaming endpoint
-    Compatible with main server API
+    OpenWebUI compatible streaming endpoint with context support
+    Compatible with main server API but includes context for evaluation
     """
     global rag_engine
     
@@ -180,10 +180,20 @@ async def retrieve_streaming(q: Query):
         )
         
         def stream_generator():
-            """Generator for streaming response"""
+            """Generator for streaming response with context"""
             try:
+                # Send context first with delimiter for parsing
+                context = result.get("context", "")
+                if not context.strip():
+                    print("⚠️ No context found for query")
+                else:
+                    print(f"🔍 Context found: {len(context)} characters")
+                    yield f"[CONTEXT]{context}[/CONTEXT]"
+                
+                # Then stream answer chunks
                 for chunk in result["response_stream"]:
                     yield chunk
+                    
             except Exception as e:
                 yield f"Error: {e}"
         

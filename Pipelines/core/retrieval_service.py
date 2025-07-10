@@ -13,6 +13,10 @@ from config.pipeline_config import PipelineConfig
 from utils.helpers import rrf, rerank_chunks, validate_search_results
 logger = get_logger(__name__)
 
+faiss.GpuIndexIVFFlat = None
+faiss.StandardGpuResources = None
+faiss.GpuIndexFlatIP = None
+
 class RetrievalService:
     """Service for document retrieval using BM25 and FAISS"""
     

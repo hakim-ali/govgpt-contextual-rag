@@ -98,7 +98,7 @@ class Pipeline:
     class Valves(BaseModel):
         RAG_SERVER_URL: str = Field(
             default="http://host.docker.internal:8100",
-            description="URL of the hosted RAG server"
+            description="URL of the hosted RAG server (local Pipeline server)"
         )
         RAG_SERVER_TIMEOUT: int = Field(
             default=30,
@@ -207,7 +207,9 @@ class Pipeline:
             self.ragas_service_available = True
             print(f"✅ RAGAS service healthy at {self.valves.RAGAS_SERVICE_URL}")
             print(f"   - RAGAS initialized: {health_data.get('ragas_initialized', False)}")
-            print(f"   - Phoenix initialized: {health_data.get('phoenix_initialized', False)}")            
+            print(f"   - Phoenix initialized: {health_data.get('phoenix_initialized', False)}")
+            print(f"   - Ground truth samples: {health_data.get('ground_truth_samples', 0)}")
+            
             phoenix_url = health_data.get('phoenix_url')
             if phoenix_url:
                 print(f"   - Phoenix UI: {phoenix_url}")
@@ -283,7 +285,9 @@ class Pipeline:
             if self.valves.ENABLE_DEBUG:
                 print(f"✅ RAGAS evaluation completed for query: {query[:50]}...")
                 print(f"   - Evaluation ID: {eval_result.get('evaluation_id')}")
-           
+                print(f"   - Ground truth found: {eval_result.get('ground_truth_found', False)}")
+                if eval_result.get('ground_truth_match_score'):
+                    print(f"   - Match score: {eval_result['ground_truth_match_score']:.2f}")
                 if eval_result.get('metrics'):
                     print(f"   - Metrics: {list(eval_result['metrics'].keys())}")
                 
@@ -327,10 +331,11 @@ class Pipeline:
             return error_msg
 
     def _stream_response(self, client: RAGServerClient, user_message: str, model: str) -> Generator[str, None, None]:
-        """Stream response from RAG server with proper formatting"""
+        """Stream response from RAG server with context extraction"""
         try:
             # Use requests for streaming to avoid event loop issues
             import requests
+            import re
             
             payload = {"query": user_message}
             if model:
@@ -352,17 +357,58 @@ class Pipeline:
             )
             response.raise_for_status()
 
-            # Collect full response for DeepEval monitoring
+            # Simple two-mode streaming: either has context at start or doesn't
+            extracted_context = ""
             full_response = ""
+            context_buffer = ""
+            has_context = None  # None, True, False
+            
             for chunk in response.iter_content(chunk_size=1024, decode_unicode=True):
                 if chunk:
-                    full_response += chunk
-                    yield chunk
+                    if has_context is None:
+                        # First chunk - determine if response has context
+                        context_buffer = chunk
+                        if context_buffer.startswith('[CONTEXT]'):
+                            has_context = True
+                            if self.valves.ENABLE_DEBUG:
+                                print(f"🔍 Context detected at start, buffering until complete")
+                        else:
+                            has_context = False
+                            full_response += chunk
+                            yield chunk
+                            if self.valves.ENABLE_DEBUG:
+                                print(f"📡 No context, streaming directly")
+                        continue
+                    
+                    if has_context:
+                        # Buffer until we have complete context block
+                        context_buffer += chunk
+                        
+                        if '[/CONTEXT]' in context_buffer:
+                            # Extract context and stream the rest
+                            end_pos = context_buffer.find('[/CONTEXT]')
+                            extracted_context = context_buffer[9:end_pos]  # Skip '[CONTEXT]'
+                            answer_part = context_buffer[end_pos + 10:]  # Skip '[/CONTEXT]'
+                            
+                            if answer_part:
+                                full_response += answer_part
+                                yield answer_part
+                            
+                            has_context = False  # Switch to direct streaming
+                            if self.valves.ENABLE_DEBUG:
+                                print(f"🔍 Context extracted: {len(extracted_context)} characters")
+                                print(f"✅ Switching to direct streaming")
+                    else:
+                        # Direct streaming mode
+                        full_response += chunk
+                        yield chunk
             
-            # Evaluate with RAGAS after streaming is complete
-            # Note: We don't have context in streaming mode, so pass empty string
+            # Evaluate with RAGAS after streaming is complete with extracted context
             if full_response.strip():
-                self._evaluate_with_ragas(user_message, full_response.strip(), "")
+                if self.valves.ENABLE_DEBUG:
+                    print(f"📝 Full response: {len(full_response)} characters")
+                
+                self._evaluate_with_ragas(user_message, full_response.strip(), extracted_context)
             
             # signal end‐of‐stream
             yield "\n"

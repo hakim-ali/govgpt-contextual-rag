@@ -7,9 +7,6 @@ services:
     container_name: govgpt-rag-server-local
     ports:
       - "8100:8100"
-    volumes:
-      # Mount artifacts directory from Pipeline folder
-      - ./artifacts:/app/artifacts:ro
     env_file:
       - .env
     environment:
