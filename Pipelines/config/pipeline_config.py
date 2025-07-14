@@ -12,8 +12,9 @@ class PipelineConfig:
         # Set artifact directory - default to Pipeline root's artifacts folder
         if artifact_dir is None:
             # Pipeline folder is the root, so artifacts are in ./artifacts
-            pipeline_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            artifact_dir = os.path.join(pipeline_root, "artifacts")
+            # pipeline_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            # artifact_dir = os.path.join(pipeline_root, "artifacts")
+            artifact_dir = os.getenv("ARTIFACT_DIR", "./artifacts")
         
         self.ARTIFACT_DIR = artifact_dir
         

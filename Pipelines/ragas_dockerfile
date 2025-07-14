@@ -6,14 +6,20 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
     curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Install uv for ultra-fast package management
+RUN pip install uv
 
 # Copy requirements
 COPY ragas_phoenix_requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r ragas_phoenix_requirements.txt
+RUN uv pip install --system --no-cache -r ragas_phoenix_requirements.txt
 
 # Copy service files
 COPY ragas_phoenix_service.py .
