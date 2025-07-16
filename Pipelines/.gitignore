@@ -66,3 +66,4 @@ test_results/
 extras/
 **/test_*.py
 .env.ragas
+tests/
