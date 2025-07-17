@@ -1,0 +1,282 @@
+version: '1.0'
+generated_at: '2025-07-15T22:22:46.349219'
+source_excel: hardcoded_data
+total_documents: 25
+available_documents: 4
+missing_documents: 21
+entities:
+- name: General
+  display_name: General Government
+  code: GEN
+- name: DGE
+  display_name: Department of Government Enablement
+  code: DGE
+- name: Department of Finance
+  display_name: Department of Finance
+  code: DOF
+- name: Human Resource Authority
+  display_name: Human Resource Authority
+  code: HRA
+functional_domains:
+- name: CX
+  display_name: Customer Experience
+  folder_name: CX
+- name: Finance
+  display_name: Finance
+  folder_name: Finance
+- name: HR
+  display_name: Human Resources
+  folder_name: HR
+- name: Procurement
+  display_name: Procurement
+  folder_name: Procurement
+- name: IT
+  display_name: Information Technology
+  folder_name: IT
+document_categories:
+- name: Guide
+  description: Instructional guides and manuals
+- name: Glossary
+  description: Glossaries and definitions
+- name: Templates
+  description: Document templates and forms
+- name: Policy
+  description: Government policies and guidelines
+- name: Law
+  description: Legal documents and regulations
+- name: Framework
+  description: Frameworks and standards
+- name: Charter
+  description: Organizational charters
+- name: Manual
+  description: Operational manuals and procedures
+- name: FAQ
+  description: Frequently Asked Questions
+document_mappings:
+- excel_title: IT Information Assurance Standards
+  entity: DGE
+  domain: IT
+  category: Guide
+  language: en
+  file_path: knowledge_base/IT/Doc 2 - Information Assurance Standards - EN.pdf
+  filename: Doc 2 - Information Assurance Standards - EN.pdf
+  file_size: 6375955
+  status: available
+- excel_title: Proc - Procurement Manual (Business Process) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: knowledge_base/Procurement/Doc 1 - Procurment Business Process - EN.PDF
+  filename: Doc 1 - Procurment Business Process - EN.PDF
+  file_size: 2635031
+  status: available
+- excel_title: CX Abu Dhabi Government Tone of Voice Document
+  entity: General
+  domain: CX
+  category: Guide
+  language: en
+  file_path: knowledge_base/HR/Doc 4 - Government TOV - EN.PDF
+  filename: Doc 4 - Government TOV - EN.PDF
+  file_size: 846374
+  status: available
+- excel_title: HR - HR Law - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: knowledge_base/HR/Doc 3 - Human Resources Law - EN.PDF
+  filename: Doc 3 - Human Resources Law - EN.PDF
+  file_size: 316751
+  status: available
+- excel_title: CX Effortless_Guide_AR
+  entity: DGE
+  domain: CX
+  category: Guide
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: CX Effortless_Guide_EN_V2
+  entity: DGE
+  domain: CX
+  category: Guide
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: CX Glossary
+  entity: DGE
+  domain: CX
+  category: Glossary
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: CX TOV templates
+  entity: DGE
+  domain: CX
+  category: Templates
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Abu Dhabi Government Finance Policy Manual_AR
+  entity: Department of Finance
+  domain: Finance
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Abu Dhabi Government Finance Policy Manual_EN
+  entity: Department of Finance
+  domain: Finance
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - Government Employee Guide Version 1 - AR
+  entity: Human Resource Authority
+  domain: HR
+  category: Guide
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - Government Employee Guide Version 2 - AR
+  entity: Human Resource Authority
+  domain: HR
+  category: Guide
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - HR Law- AR
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - Implementation Regulation for HR Law No 6 Year 2016 - AR
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - Implementation Regulation for HR Law No 6 Year 2016 - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - DGE Procurement Framework - EN
+  entity: DGE
+  domain: Procurement
+  category: Framework
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Policies and Procedures for Sales Auctions and Warehouses -
+    AR
+  entity: DGE
+  domain: Procurement
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Policies and Procedures for Sales Auctions and Warehouses -
+    EN
+  entity: DGE
+  domain: Procurement
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Charter - AR
+  entity: DGE
+  domain: Procurement
+  category: Charter
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Charter - EN
+  entity: DGE
+  domain: Procurement
+  category: Charter
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Manual (Ariba Aligned) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Manual (Business Process) - AR
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Standard Regulations - AR
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Standard Regulations - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Support Frequently Asked Questions - EN
+  entity: DGE
+  domain: Procurement
+  category: FAQ
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing

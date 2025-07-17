@@ -1,0 +1,50 @@
+{
+  "enriched_chunks": [
+    "This chunk represents the beginning of a glossary section in a document, labeled \"قائمة المصطلحات Glossary,\" but the actual glossary content is missing or corrupted, showing mostly individual Arabic letters, diacritics, and repeated copyright/distribution warnings instead of defined terms and their explanations.\n\nقائمة المصطلحات Glossary\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\nر\n\nى\n\nر\n\nر\n\nر\n\nر\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nَ\n\nّ\n\nى\n\nى\n\nى\n\nر\n\nر\n\nر\n\nر\n\nر\n\nر\n\nر\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nى\n\nر\n\nً\n\nى\n\nر\n\nر\n\nى\n\nّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nى\n\nر\n\nر\n\nَ\n\nَ\n\nر\n\nر\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\n",
+    "This chunk captures repeated legal disclaimers about restricted document distribution and unauthorized use, interspersed with isolated Arabic letters and diacritics, representing fragmented or placeholder content within the glossary section of the document.\n\n is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\nر\n\nر\n\nر\n\nّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\nّ\n\nى\n\nر\n\nى\n\nَّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\nى\n\nر\n\nر\n\nر\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nى\n\nر\n\nى\n\nى\n\nر\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nى\n\nى\n\nى\n\nر\n\nر\n\nر\n\nر\n\nر\n\nى\n\nِّ\n\nِّ\n\nِّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized",
+    "This chunk captures a portion of the document’s glossary section, containing isolated Arabic letters and diacritics—likely as index markers or incomplete entries—interspersed with repeated copyright and confidentiality notices, without substantive definitions or explanations.\n\n\n\nِّ\n\nِّ\n\nِّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nّ\n\nر\n\nر\n\nّ\n\nّ\n\nّ\n\nِّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nر\n\nى\n\nر\n\nً\n\nً\n\nر\n\nى\n\nر\n\nً\n\nى\n\nر\n\nُ\n\nُ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited.\n\nً\n\nى\n\nر\n\nر\n\nّ\n\nThis document contains work that is not currently intended for distribution or use beyond its intended recipients. Any unauthorized use, dissemination, or reproduction of this document is strictly prohibited."
+  ],
+  "chunk_metadata": [
+    {
+      "chunk_id": "1",
+      "document_title": "قائمة المصطلحات Glossary",
+      "section_title": "قائمة المصطلحات Glossary",
+      "section_hierarchy": [
+        "قائمة المصطلحات Glossary"
+      ],
+      "contextual_text": "This chunk represents the beginning of a glossary section in a document, labeled \"قائمة المصطلحات Glossary,\" but the actual glossary content is missing or corrupted, showing mostly individual Arabic letters, diacritics, and repeated copyright/distribution warnings instead of defined terms and their explanations.",
+      "page_numbers": [
+        1,
+        2
+      ]
+    },
+    {
+      "chunk_id": "2",
+      "document_title": "قائمة المصطلحات Glossary",
+      "section_title": "قائمة المصطلحات Glossary",
+      "section_hierarchy": [
+        "قائمة المصطلحات Glossary"
+      ],
+      "contextual_text": "This chunk captures repeated legal disclaimers about restricted document distribution and unauthorized use, interspersed with isolated Arabic letters and diacritics, representing fragmented or placeholder content within the glossary section of the document.",
+      "page_numbers": [
+        2,
+        3
+      ]
+    },
+    {
+      "chunk_id": "3",
+      "document_title": "قائمة المصطلحات Glossary",
+      "section_title": "قائمة المصطلحات Glossary",
+      "section_hierarchy": [
+        "قائمة المصطلحات Glossary"
+      ],
+      "contextual_text": "This chunk captures a portion of the document’s glossary section, containing isolated Arabic letters and diacritics—likely as index markers or incomplete entries—interspersed with repeated copyright and confidentiality notices, without substantive definitions or explanations.",
+      "page_numbers": [
+        3
+      ]
+    }
+  ],
+  "document_name": "CX Glossary",
+  "total_chunks": 3,
+  "processing_timestamp": 1752694561.235252
+}

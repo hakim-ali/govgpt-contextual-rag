@@ -1,0 +1,188 @@
+version: '1.1'
+generated_at: '2025-07-17T00:41:30.226257'
+source_excel: knowledge_base_hierarchy_data.xlsx
+total_documents: 15
+available_documents: 4
+missing_documents: 11
+entities:
+- name: Unknown
+  display_name: Unknown
+  code: U
+- name: DGE
+  display_name: DGE
+  code: D
+- name: Department of Finance
+  display_name: Department of Finance
+  code: DOF
+- name: Human Resource Authority
+  display_name: Human Resource Authority
+  code: HRA
+functional_domains:
+- name: CX
+  display_name: CX
+  folder_name: CX
+- name: Finance
+  display_name: Finance
+  folder_name: Finance
+- name: HR
+  display_name: HR
+  folder_name: HR
+- name: Procurement
+  display_name: Procurement
+  folder_name: Procurement
+document_categories:
+- name: Guide
+  description: Guide documents
+- name: Glossary
+  description: Glossary documents
+- name: Templates
+  description: Templates documents
+- name: Policy
+  description: Policy documents
+- name: Law
+  description: Law documents
+- name: Framework
+  description: Framework documents
+- name: Charter
+  description: Charter documents
+- name: Manual
+  description: Manual documents
+- name: FAQ
+  description: FAQ documents
+document_mappings:
+- excel_title: IT Information Assurance Standards
+  entity: DGE
+  domain: IT
+  category: Guide
+  language: en
+  file_path: knowledge_base/IT/Doc 2 - Information Assurance Standards - EN.pdf
+  filename: Doc 2 - Information Assurance Standards - EN.pdf
+  file_size: 6375955
+  status: available
+- excel_title: Proc - Procurement Manual (Business Process) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: knowledge_base/Procurement/Doc 1 - Procurment Business Process - EN.PDF
+  filename: Doc 1 - Procurment Business Process - EN.PDF
+  file_size: 2635031
+  status: available
+- excel_title: CX Abu Dhabi Government Tone of Voice Document
+  entity: General
+  domain: CX
+  category: Guide
+  language: en
+  file_path: knowledge_base/HR/Doc 4 - Government TOV - EN.PDF
+  filename: Doc 4 - Government TOV - EN.PDF
+  file_size: 846374
+  status: available
+- excel_title: HR - HR Law - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: knowledge_base/HR/Doc 3 - Human Resources Law - EN.PDF
+  filename: Doc 3 - Human Resources Law - EN.PDF
+  file_size: 316751
+  status: available
+- excel_title: CX Effortless_Guide_EN_V2
+  entity: DGE
+  domain: CX
+  category: Guide
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: CX Glossary
+  entity: DGE
+  domain: CX
+  category: Glossary
+  language: ar+en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: CX TOV templates
+  entity: DGE
+  domain: CX
+  category: Templates
+  language: ar+en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Abu Dhabi Government Finance Policy Manual_EN
+  entity: Department of Finance
+  domain: Finance
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: HR - Implementation Regulation for HR Law No 6 Year 2016 - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - DGE Procurement Framework - EN
+  entity: DGE
+  domain: Procurement
+  category: Framework
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Policies and Procedures for Sales Auctions and Warehouses -
+    EN
+  entity: DGE
+  domain: Procurement
+  category: Policy
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Charter - EN
+  entity: DGE
+  domain: Procurement
+  category: Charter
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Manual (Ariba Aligned) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Procurement Standard Regulations - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing
+- excel_title: Proc - Support Frequently Asked Questions - EN
+  entity: DGE
+  domain: Procurement
+  category: FAQ
+  language: ar+en
+  file_path: null
+  filename: null
+  file_size: null
+  status: missing

@@ -1,0 +1,185 @@
+version: '1.2'
+generated_at: '2025-07-17T00:54:28.751564'
+source_excel: knowledge_base_hierarchy_data.xlsx
+total_documents: 14
+available_documents: 14
+missing_documents: 0
+entities:
+- name: Unknown
+  display_name: Unknown
+  code: U
+- name: DGE
+  display_name: DGE
+  code: D
+- name: Department of Finance
+  display_name: Department of Finance
+  code: DOF
+- name: Human Resource Authority
+  display_name: Human Resource Authority
+  code: HRA
+functional_domains:
+- name: CX
+  display_name: CX
+  folder_name: CX
+- name: Finance
+  display_name: Finance
+  folder_name: Finance
+- name: HR
+  display_name: HR
+  folder_name: HR
+- name: Procurement
+  display_name: Procurement
+  folder_name: Procurement
+document_categories:
+- name: Guide
+  description: Guide documents
+- name: Glossary
+  description: Glossary documents
+- name: Templates
+  description: Templates documents
+- name: Policy
+  description: Policy documents
+- name: Law
+  description: Law documents
+- name: Framework
+  description: Framework documents
+- name: Charter
+  description: Charter documents
+- name: Manual
+  description: Manual documents
+- name: FAQ
+  description: FAQ documents
+document_mappings:
+- excel_title: CX Abu Dhabi Government Tone of Voice Document
+  entity: Unknown
+  domain: CX
+  category: Guide
+  language: en
+  file_path: knowledge_base_prod/CX/CX Abu Dhabi Government Tone of Voice Document.pdf
+  filename: CX Abu Dhabi Government Tone of Voice Document.pdf
+  file_size: 846374
+  status: available
+- excel_title: CX Effortless_Guide_EN_V2
+  entity: DGE
+  domain: CX
+  category: Guide
+  language: en
+  file_path: knowledge_base_prod/CX/CX Effortless_Guide_EN_V2.pdf
+  filename: CX Effortless_Guide_EN_V2.pdf
+  file_size: 2744103
+  status: available
+- excel_title: CX Glossary
+  entity: DGE
+  domain: CX
+  category: Glossary
+  language: ar+en
+  file_path: knowledge_base_prod/CX/CX Glossary.pdf
+  filename: CX Glossary.pdf
+  file_size: 530997
+  status: available
+- excel_title: CX TOV templates
+  entity: DGE
+  domain: CX
+  category: Templates
+  language: ar+en
+  file_path: knowledge_base_prod/CX/CX TOV templates.pdf
+  filename: CX TOV templates.pdf
+  file_size: 6361670
+  status: available
+- excel_title: Abu Dhabi Government Finance Policy Manual_EN
+  entity: Department of Finance
+  domain: Finance
+  category: Policy
+  language: en
+  file_path: knowledge_base_prod/Finance/Abu Dhabi Government Finance Policy Manual_EN.pdf
+  filename: Abu Dhabi Government Finance Policy Manual_EN.pdf
+  file_size: 812483
+  status: available
+- excel_title: HR - HR Law - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: knowledge_base_prod/HR/HR - HR Law - EN.pdf
+  filename: HR - HR Law - EN.pdf
+  file_size: 316751
+  status: available
+- excel_title: HR - Implementation Regulation for HR Law No 6 Year 2016 - EN
+  entity: Human Resource Authority
+  domain: HR
+  category: Law
+  language: en
+  file_path: knowledge_base_prod/HR/HR - Implementation Regulation for HR Law No 6
+    Year 2016 - EN.pdf
+  filename: HR - Implementation Regulation for HR Law No 6 Year 2016 - EN.pdf
+  file_size: 1175153
+  status: available
+- excel_title: Proc - DGE Procurement Framework - EN
+  entity: DGE
+  domain: Procurement
+  category: Framework
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - DGE Procurement Framework - EN.DOC
+  filename: Proc - DGE Procurement Framework - EN.DOC
+  file_size: 1660126
+  status: available
+- excel_title: Proc - Policies and Procedures for Sales Auctions and Warehouses -
+    EN
+  entity: DGE
+  domain: Procurement
+  category: Policy
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - Policies and Procedures for Sales
+    Auctions and Warehouses - EN.PDF
+  filename: Proc - Policies and Procedures for Sales Auctions and Warehouses - EN.PDF
+  file_size: 849497
+  status: available
+- excel_title: Proc - Procurement Charter - EN
+  entity: DGE
+  domain: Procurement
+  category: Charter
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - Procurement Charter - EN.pdf
+  filename: Proc - Procurement Charter - EN.pdf
+  file_size: 1443597
+  status: available
+- excel_title: Proc - Procurement Manual (Ariba Aligned) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - Procurement Manual (Ariba Aligned)
+    - EN.pdf
+  filename: Proc - Procurement Manual (Ariba Aligned) - EN.pdf
+  file_size: 7460059
+  status: available
+- excel_title: Proc - Procurement Manual (Business Process) - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - Procurement Manual (Business Process)
+    - EN.pdf
+  filename: Proc - Procurement Manual (Business Process) - EN.pdf
+  file_size: 2635031
+  status: available
+- excel_title: Proc - Procurement Standard Regulations - EN
+  entity: DGE
+  domain: Procurement
+  category: Manual
+  language: en
+  file_path: knowledge_base_prod/Procurement/Proc - Procurement Standard Regulations
+    - EN.PDF
+  filename: Proc - Procurement Standard Regulations - EN.PDF
+  file_size: 1450487
+  status: available
+- excel_title: Proc - Support Frequently Asked Questions - EN
+  entity: DGE
+  domain: Procurement
+  category: FAQ
+  language: ar+en
+  file_path: knowledge_base_prod/Procurement/Proc - Support Frequently Asked Questions
+    - EN.docx
+  filename: Proc - Support Frequently Asked Questions - EN.docx
+  file_size: 756334
+  status: available
