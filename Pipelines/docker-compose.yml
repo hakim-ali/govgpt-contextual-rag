@@ -14,6 +14,7 @@ services:
       - ARTIFACT_DIR=/app/artifacts
       - PYTHONUNBUFFERED=1
       - PYTHONPATH=/app
+      - KB_DATABASE_URL=postgresql://mustaqmollah@host.docker.internal:5432/WoG
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
@@ -21,8 +22,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    networks:
-      - rag-network
 
   # RAGAS + Phoenix Service for real-time evaluation
   ragas-service:
@@ -34,7 +33,7 @@ services:
       - "8300:8300"  # RAGAS service
       - "6006:6006"   # Phoenix UI
     env_file:
-      - .env.ragas
+      - env.ragas
     environment:
       - PYTHONUNBUFFERED=1
       - RAGAS_SERVICE_HOST=0.0.0.0
@@ -48,8 +47,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    networks:
-      - rag-network
 
   # Optional: Pipeline testing service (for integration testing)
   pipeline-test:
@@ -67,16 +64,10 @@ services:
       - ./:/app/pipeline
     working_dir: /app/pipeline
     command: ["python", "test_pipeline.py"]
-    networks:
-      - rag-network
     profiles:
       - testing
 
-networks:
-  rag-network:
-    driver: bridge
-
-# Optional: Add volumes for persistence if needed
+# Volumes for persistence
 volumes:
   artifacts:
     driver: local

@@ -18,6 +18,11 @@ faiss-cpu>=1.7.4
 tiktoken>=0.5.0
 together>=0.2.0
 
+# PGVector dependencies
+psycopg[binary]>=3.1.0
+psycopg-pool>=3.1.0
+pgvector>=0.2.0
+
 # Document processing (for local server)
 PyPDF2>=3.0.0
 pandas>=1.5.0

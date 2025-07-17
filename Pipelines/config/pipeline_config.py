@@ -72,15 +72,11 @@ If the answer is not directly available in the context, state that based on the 
         }
     
     def validate(self) -> bool:
-        """Validate configuration and required files"""
-        required_files = [self.chunks_path, self.bm25_path, self.faiss_path]
-        
-        for file_path in required_files:
-            if not os.path.exists(file_path):
-                print(f"❌ Missing required file: {file_path}")
-                return False
+        """Validate configuration for PGVector implementation"""
+        # No longer validate FAISS files - using PGVector database
         
         if not self.OPENAI_API_KEY:
             print("⚠️  Warning: OPENAI_API_KEY not set")
             
+        print("✅ PGVector configuration valid - using database backend")
         return True

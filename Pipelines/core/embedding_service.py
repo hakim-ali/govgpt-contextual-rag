@@ -82,11 +82,11 @@ class EmbeddingService:
             query_emb = np.array(embeddings, dtype=np.float32).reshape(1, -1)
             
             # Normalize using FAISS normalization
-            import faiss
-            faiss.GpuIndexIVFFlat = None
-            faiss.StandardGpuResources = None
-            faiss.GpuIndexFlatIP = None
-            faiss.normalize_L2(query_emb)
+            # import faiss
+            # faiss.GpuIndexIVFFlat = None
+            # faiss.StandardGpuResources = None
+            # faiss.GpuIndexFlatIP = None
+            # faiss.normalize_L2(query_emb)
             
             return query_emb
         except Exception as e:

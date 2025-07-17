@@ -27,10 +27,16 @@ RUN chown appuser:appuser /app
 
 # Copy application files (Pipeline folder structure)
 COPY --chown=appuser:appuser run_rag_server.py .
+COPY --chown=appuser:appuser init_kb.py .
+COPY --chown=appuser:appuser start_server.sh .
 COPY --chown=appuser:appuser core/ /app/core/
 COPY --chown=appuser:appuser config/ /app/config/
 COPY --chown=appuser:appuser utils/ /app/utils/
 COPY --chown=appuser:appuser artifacts/ /app/artifacts/
+COPY --chown=appuser:appuser govgpt-kb/ /app/govgpt-kb/
+
+# Make startup script executable
+RUN chmod +x start_server.sh
 
 # Switch to non-root user
 USER appuser
@@ -47,5 +53,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 # Expose port
 EXPOSE 8100
 
-# Run the FastAPI server
-CMD ["python", "run_rag_server.py"]
+# Run the startup script (initializes KB and starts server)
+CMD ["./start_server.sh"]
